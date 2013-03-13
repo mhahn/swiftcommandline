@@ -124,16 +124,16 @@ function l {
     source $SWIFTCOMMANDLINE
 
     # if color output is not working for you, comment out the line below '\033[1;32m' == "red"
-    env | sort | awk '/S_.+/{split(substr($0,5),parts,"="); printf("\033[1;31m%-20s\033[0m %s\n", parts[1], parts[2]);}'
+    env | sort | awk '/S_.+/{split(substr($0,3),parts,"="); printf("\033[1;31m%-20s\033[0m %s\n", parts[1], parts[2]);}'
 
     # uncomment this line if color output is not working with the line above
-    # env | grep "^S_" | cut -c5- | sort |grep "^.*="
+    # env | grep "^S_" | cut -c3- | sort |grep "^.*="
 }
 
 # list references without name
 function _sl {
     source $SWIFTCOMMANDLINE
-    env | grep "^S_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
+    env | grep "^S_" | cut -c3- | sort | grep "^.*=" | cut -f1 -d "="
 }
 
 function _check_valid_filename {
