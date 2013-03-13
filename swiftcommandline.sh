@@ -48,17 +48,17 @@ function s {
     check_help $1
     _reference_name_valid "$@"
     if [ -z "$2" ]; then
-        _purge_line "$SWIFTCOMMANDLINE" "export VSF_$1="
+        _purge_line "$SWIFTCOMMANDLINE" "export S_$1="
         CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
-        echo "export VSF_$1=\"$CURDIR\"" >> $SWIFTCOMMANDLINE
+        echo "export S_$1=\"$CURDIR\"" >> $SWIFTCOMMANDLINE
     else
         _check_valid_filename "$@"
         if [ -z "$exit_message" ]; then
-            _purge_line "$SWIFTCOMMANDLINE" "export VSF_$1="
+            _purge_line "$SWIFTCOMMANDLINE" "export S_$1="
             if [[ "${2:0:1}" == "/" ]]; then
-                echo "export VSF_$1=\"$2\"" >> $SWIFTCOMMANDLINE
+                echo "export S_$1=\"$2\"" >> $SWIFTCOMMANDLINE
             else
-                echo "export VSF_$1=\"$PWD/$2\"" >> $SWIFTCOMMANDLINE
+                echo "export S_$1=\"$PWD/$2\"" >> $SWIFTCOMMANDLINE
             fi
         fi
     fi
@@ -68,28 +68,28 @@ function s {
 function g {
     check_help $1
     source $SWIFTCOMMANDLINE
-    cd "$(eval $(echo echo $(echo \$VSF_$1)))"
+    cd "$(eval $(echo echo $(echo \$S_$1)))"
 }
 
 # edit reference
 function e {
     check_help $1
     source $SWIFTCOMMANDLINE
-    vim "$(eval $(echo echo $(echo \$VSF_$1)))"
+    vim "$(eval $(echo echo $(echo \$S_$1)))"
 }
 
 # edit reference
 function o {
     check_help $1
     source $SWIFTCOMMANDLINE
-    open "$(eval $(echo echo $(echo \$VSF_$1)))"
+    open "$(eval $(echo echo $(echo \$S_$1)))"
 }
 
 # print reference
 function p {
     check_help $1
     source $SWIFTCOMMANDLINE
-    echo "$(eval $(echo echo $(echo \$VSF_$1)))"
+    echo "$(eval $(echo echo $(echo \$S_$1)))"
 }
 
 # delete reference
@@ -97,8 +97,8 @@ function d {
     check_help $1
     _reference_name_valid "$@"
     if [ -z "$exit_message" ]; then
-        _purge_line "$SWIFTCOMMANDLINE" "export VSF_$1="
-        unset "VSF_$1"
+        _purge_line "$SWIFTCOMMANDLINE" "export S_$1="
+        unset "S_$1"
     fi
 }
 
@@ -124,16 +124,16 @@ function l {
     source $SWIFTCOMMANDLINE
 
     # if color output is not working for you, comment out the line below '\033[1;32m' == "red"
-    env | sort | awk '/VSF_.+/{split(substr($0,5),parts,"="); printf("\033[1;31m%-20s\033[0m %s\n", parts[1], parts[2]);}'
+    env | sort | awk '/S_.+/{split(substr($0,5),parts,"="); printf("\033[1;31m%-20s\033[0m %s\n", parts[1], parts[2]);}'
 
     # uncomment this line if color output is not working with the line above
-    # env | grep "^VSF_" | cut -c5- | sort |grep "^.*="
+    # env | grep "^S_" | cut -c5- | sort |grep "^.*="
 }
 
 # list references without name
 function _sl {
     source $SWIFTCOMMANDLINE
-    env | grep "^VSF_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
+    env | grep "^S_" | cut -c5- | sort | grep "^.*=" | cut -f1 -d "="
 }
 
 function _check_valid_filename {
