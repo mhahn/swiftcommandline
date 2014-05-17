@@ -47,6 +47,9 @@ touch $SWIFTCOMMANDLINE
 function s {
     check_help $1
     _reference_name_valid "$@"
+    if [ "$exit_message" ]; then
+        return 1
+    fi
     if [ -z "$2" ]; then
         _purge_line "$SWIFTCOMMANDLINE" "export S_$1="
         CURDIR=$(echo $PWD| sed "s#^$HOME#\$HOME#g")
